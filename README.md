@@ -1,31 +1,35 @@
 # training
 
-Mise en place de deux bases front-end avec Vite :
+Ce dépôt contient désormais une base **React + TypeScript** transformée en prototype de web app fitness mobile-first : **RetroFit Quest**.
 
-- `react-ts/` : React + TypeScript + Tailwind CSS
-- `vue-ts/` : Vue + TypeScript + Tailwind CSS
+## Structure
 
-## Lancer les projets
+- `react-ts/` : prototype principal React + TypeScript + Tailwind CSS
+- `vue-ts/` : base Vue conservée comme alternative
 
-### React
+## RetroFit Quest
+
+Le prototype React met en place :
+
+- un onboarding mobile-first ;
+- un tableau de bord solo avec objectif quotidien ;
+- un générateur de séance Boss et un constructeur de routine custom ;
+- un écran de séance avec gros chrono, consignes posture et commandes tactiles massives ;
+- une progression positive (XP, niveau, badges, déblocages) ;
+- des réglages Telegram et des points d’ancrage pour Firebase / Firestore / fonctions planifiées.
+
+## Lancer le projet React
 
 ```bash
-cd react-ts
+cd /home/runner/work/training/training/react-ts
 npm install
 npm run dev
 ```
 
-### Vue
+## Vérifications
 
 ```bash
-cd vue-ts
-npm install
-npm run dev
-```
-
-## Build
-
-```bash
-cd react-ts && npm run build
-cd ../vue-ts && npm run build
+cd /home/runner/work/training/training/react-ts
+npm run lint
+npm run build
 ```
