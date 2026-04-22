@@ -10,7 +10,7 @@ Mise en place de deux bases front-end avec Vite :
 ### React
 
 ```bash
-cd /home/runner/work/training/training/react-ts
+cd react-ts
 npm install
 npm run dev
 ```
@@ -18,7 +18,7 @@ npm run dev
 ### Vue
 
 ```bash
-cd /home/runner/work/training/training/vue-ts
+cd vue-ts
 npm install
 npm run dev
 ```
@@ -26,6 +26,6 @@ npm run dev
 ## Build
 
 ```bash
-cd /home/runner/work/training/training/react-ts && npm run build
-cd /home/runner/work/training/training/vue-ts && npm run build
+cd react-ts && npm run build
+cd ../vue-ts && npm run build
 ```
