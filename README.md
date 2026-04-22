@@ -21,7 +21,7 @@ Le prototype React met en place :
 ## Lancer le projet React
 
 ```bash
-cd /home/runner/work/training/training/react-ts
+cd react-ts
 npm install
 npm run dev
 ```
@@ -29,7 +29,7 @@ npm run dev
 ## Vérifications
 
 ```bash
-cd /home/runner/work/training/training/react-ts
+cd react-ts
 npm run lint
 npm run build
 ```

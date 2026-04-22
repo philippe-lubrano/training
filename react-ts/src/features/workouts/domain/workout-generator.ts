@@ -53,9 +53,12 @@ export function generateDailyWorkout(date: Date): WorkoutPlan {
 export function generateBossWorkout(seedDate: Date): WorkoutPlan {
   const seed = getSeed(seedDate)
   const shift = seed % exerciseCatalog.length
-  const steps = BOSS_PATTERN.map((exerciseId, index) =>
-    createStep(DAILY_PATTERN[(DAILY_PATTERN.indexOf(exerciseId) + shift) % DAILY_PATTERN.length], index, BOSS_DURATIONS[index]),
-  )
+  const steps = BOSS_PATTERN.map((exerciseId, index) => {
+    const rotatedIndex = (DAILY_PATTERN.indexOf(exerciseId) + shift) % DAILY_PATTERN.length
+    const rotatedExerciseId = DAILY_PATTERN[rotatedIndex]
+
+    return createStep(rotatedExerciseId, index, BOSS_DURATIONS[index])
+  })
   const totalSeconds = getTotalSeconds(steps)
 
   return {

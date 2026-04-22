@@ -13,8 +13,8 @@ export function getLevelFromXp(xp: number): number {
 
 export function getLevelProgress(xp: number) {
   const level = getLevelFromXp(xp)
-  const xpFloor = (level - 1) * XP_PER_LEVEL
-  const xpIntoLevel = xp - xpFloor
+  const xpRequiredForCurrentLevel = (level - 1) * XP_PER_LEVEL
+  const xpIntoLevel = xp - xpRequiredForCurrentLevel
 
   return {
     level,

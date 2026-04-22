@@ -57,7 +57,7 @@ export function AppShell() {
   const [activeWorkout, setActiveWorkout] = useState<WorkoutPlan | null>(null)
   const [sessionState, setSessionState] = useState<SessionState>(initialSessionState)
   const [lastResult, setLastResult] = useState<SessionResult | null>(null)
-  const [badgeModal, setBadgeModal] = useState(initialSnapshot.profile.badges.slice(0, 0))
+  const [badgeModal, setBadgeModal] = useState<typeof profile.badges>([])
 
   const todayKey = getTodayKey()
   const todayCompleted = profile.lastSessionDate === todayKey
