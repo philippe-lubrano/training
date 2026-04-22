@@ -1,0 +1,17 @@
+{
+  "name": "RetroFit Quest",
+  "short_name": "RetroFit",
+  "description": "Web app de fitness solo mobile-first avec mini-jeux rétro, XP, badges et discipline Telegram.",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
