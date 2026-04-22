@@ -52,15 +52,21 @@ export function AppShell() {
   const [sessionHistory, setSessionHistory] = useState(initialSnapshot.sessionHistory)
   const [customSelection, setCustomSelection] = useState<Record<ExerciseId, number>>(initialSelection)
   const [dailyWorkout] = useState(() => generateDailyWorkout(new Date()))
+  const [bossBaseDate] = useState(() => new Date())
   const [bossSeed, setBossSeed] = useState(0)
   const [activeWorkout, setActiveWorkout] = useState<WorkoutPlan | null>(null)
   const [sessionState, setSessionState] = useState<SessionState>(initialSessionState)
   const [lastResult, setLastResult] = useState<SessionResult | null>(null)
-  const [badgeModal, setBadgeModal] = useState(initialSnapshot.profile.badges.slice(-1))
+  const [badgeModal, setBadgeModal] = useState(initialSnapshot.profile.badges.slice(0, 0))
 
   const todayKey = getTodayKey()
   const todayCompleted = profile.lastSessionDate === todayKey
-  const bossWorkout = useMemo(() => generateBossWorkout(new Date(Date.now() + bossSeed * 86_400_000)), [bossSeed])
+  const bossWorkout = useMemo(() => {
+    const workoutDate = new Date(bossBaseDate)
+    workoutDate.setDate(workoutDate.getDate() + bossSeed)
+
+    return generateBossWorkout(workoutDate)
+  }, [bossBaseDate, bossSeed])
   const customPreview = useMemo(() => buildCustomWorkout(customSelection), [customSelection])
 
   useEffect(() => {
@@ -71,42 +77,6 @@ export function AppShell() {
       sessionHistory,
     })
   }, [onboardingDone, profile, sessionHistory, telegram])
-
-  useEffect(() => {
-    if (!activeWorkout || sessionState.status !== 'running') {
-      return undefined
-    }
-
-    const intervalId = window.setInterval(() => {
-      setSessionState((currentState) => {
-        if (currentState.status !== 'running') {
-          return currentState
-        }
-
-        if (currentState.secondsLeft > 1) {
-          return { ...currentState, secondsLeft: currentState.secondsLeft - 1 }
-        }
-
-        const nextIndex = currentState.stepIndex + 1
-
-        if (nextIndex < activeWorkout.steps.length) {
-          return {
-            status: 'running',
-            stepIndex: nextIndex,
-            secondsLeft: activeWorkout.steps[nextIndex].durationSec,
-          }
-        }
-
-        return {
-          ...currentState,
-          status: 'completed',
-          secondsLeft: 0,
-        }
-      })
-    }, 1000)
-
-    return () => window.clearInterval(intervalId)
-  }, [activeWorkout, sessionState.status])
 
   const resetSession = useCallback(() => {
     setActiveWorkout(null)
@@ -170,9 +140,41 @@ export function AppShell() {
   )
 
   useEffect(() => {
-    if (sessionState.status === 'completed' && activeWorkout) {
-      finalizeSession(activeWorkout)
+    if (!activeWorkout || sessionState.status !== 'running') {
+      return undefined
     }
+
+    const intervalId = window.setInterval(() => {
+      setSessionState((currentState) => {
+        if (currentState.status !== 'running') {
+          return currentState
+        }
+
+        if (currentState.secondsLeft > 1) {
+          return { ...currentState, secondsLeft: currentState.secondsLeft - 1 }
+        }
+
+        const nextIndex = currentState.stepIndex + 1
+
+        if (nextIndex < activeWorkout.steps.length) {
+          return {
+            status: 'running',
+            stepIndex: nextIndex,
+            secondsLeft: activeWorkout.steps[nextIndex].durationSec,
+          }
+        }
+
+        window.setTimeout(() => finalizeSession(activeWorkout), 0)
+
+        return {
+          ...currentState,
+          status: 'completed',
+          secondsLeft: 0,
+        }
+      })
+    }, 1000)
+
+    return () => window.clearInterval(intervalId)
   }, [activeWorkout, finalizeSession, sessionState.status])
 
   const startWorkout = useCallback((workout: WorkoutPlan) => {
@@ -207,6 +209,8 @@ export function AppShell() {
       const nextIndex = currentState.stepIndex + 1
 
       if (nextIndex >= activeWorkout.steps.length) {
+        window.setTimeout(() => finalizeSession(activeWorkout), 0)
+
         return { ...currentState, status: 'completed', secondsLeft: 0 }
       }
 
@@ -216,7 +220,7 @@ export function AppShell() {
         secondsLeft: activeWorkout.steps[nextIndex].durationSec,
       }
     })
-  }, [activeWorkout])
+  }, [activeWorkout, finalizeSession])
 
   const adjustRoutine = useCallback((exerciseId: ExerciseId, delta: -1 | 1) => {
     setCustomSelection((currentSelection) => ({
