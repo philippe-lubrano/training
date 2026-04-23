@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  font-family: 'VT323', monospace;
+  background: #020914;
+  --bg-deep: #020914;
+  --bg-mid: #06172a;
+  --panel: #102742;
+  --panel-strong: #0a1c31;
+  --stroke: #33476b;
+  --stroke-strong: #6a7fa5;
+  --text-main: #f8fafc;
+  --text-muted: #9bb0cb;
+}
+
+html {
+  background: #020914;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.16), transparent 26%),
+    radial-gradient(circle at bottom, rgba(34, 197, 94, 0.08), transparent 24%),
+    linear-gradient(180deg, #07101c 0%, #020914 100%);
+  color: var(--text-main);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: white;
+}
+
+@layer components {
+  .pixel-font {
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .ui-font {
+    font-family: 'VT323', monospace;
+  }
+
+  .pixel-frame {
+    position: relative;
+    border: 4px solid #24344f;
+    border-radius: 2rem;
+    background: linear-gradient(180deg, #081322 0%, #091827 100%);
+    box-shadow:
+      inset 0 0 0 2px #0f2238,
+      0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  .pixel-frame::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    opacity: 0.35;
+  }
+
+  .pixel-card {
+    position: relative;
+    border: 4px solid var(--stroke);
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
+    box-shadow:
+      inset 0 0 0 2px #071220,
+      0 10px 0 rgba(0, 0, 0, 0.32);
+  }
+
+  .pixel-card-soft {
+    border: 3px solid rgba(106, 127, 165, 0.4);
+    border-radius: 1rem;
+    background: rgba(17, 36, 60, 0.92);
+    box-shadow: inset 0 0 0 1px rgba(7, 18, 32, 0.95);
+  }
+
+  .pixel-divider {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(155, 176, 203, 0.7), transparent);
+  }
+
+  .pixel-button {
+    border: 4px solid #10253d;
+    border-radius: 1rem;
+    box-shadow:
+      inset 0 0 0 2px rgba(255, 255, 255, 0.16),
+      0 6px 0 rgba(0, 0, 0, 0.35);
+    color: #f8fafc;
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+      transform 0.12s ease,
+      filter 0.12s ease;
+  }
+
+  .pixel-button:hover {
+    filter: brightness(1.05);
+  }
+
+  .pixel-button:active {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 0 0 2px rgba(255, 255, 255, 0.16),
+      0 4px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .pixel-button:disabled {
+    cursor: not-allowed;
+    filter: saturate(0.4) brightness(0.8);
+  }
+
+  .pixel-button--green {
+    background: linear-gradient(180deg, #2ee65d 0%, #19b73c 100%);
+    border-color: #0f6d23;
+  }
+
+  .pixel-button--blue {
+    background: linear-gradient(180deg, #4f94ff 0%, #2563eb 100%);
+    border-color: #1f4db2;
+  }
+
+  .pixel-button--purple {
+    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+    border-color: #4c1d95;
+  }
+
+  .pixel-button--orange {
+    background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+    border-color: #9a3412;
+  }
+
+  .pixel-button--teal {
+    background: linear-gradient(180deg, #22d3ee 0%, #0891b2 100%);
+    border-color: #155e75;
+  }
+
+  .pixel-button--yellow {
+    background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
+    border-color: #a16207;
+    color: #fffdf2;
+  }
+
+  .pixel-button--red {
+    background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
+    border-color: #991b1b;
+  }
+
+  .xp-bar {
+    overflow: hidden;
+    border: 3px solid #516889;
+    border-radius: 999px;
+    background: #081321;
+    box-shadow: inset 0 0 0 2px rgba(6, 23, 42, 0.8);
+  }
+
+  .xp-bar > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #facc15 0%, #f59e0b 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  }
+
+  .pixel-meter {
+    overflow: hidden;
+    border: 3px solid #596e91;
+    border-radius: 0.25rem;
+    background: rgba(4, 12, 22, 0.92);
+    box-shadow: inset 0 0 0 2px rgba(7, 18, 32, 0.95);
+  }
+
+  .pixel-meter > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+  }
+
+  .pixel-shadow-text {
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+  }
+}
